@@ -21,54 +21,6 @@
 BOOL printfInstead = true;
 
 // credits:
-// https://blog.csdn.net/gaoxin1076/article/details/7562466
-// https://download.csdn.net/download/moonshine99/7533603
-// https://blog.csdn.net/immcss/article/details/5304972
-// edited.
-
-// Test is UAC enabled or not.
-BOOL isUACOpen(){
-	// made no problem.
-	BOOL is;
-	
-	// ready reg stuff
-	HKEY hKEY = NULL;
-	DWORD dwType = REG_DWORD;
-	DWORD dwEnableLUA = 0;
-	DWORD dwConsentPromptBehaviorAdmin = 0;
-	DWORD dwPromptOnSecureDesktop = 0;
-	DWORD dwSize = sizeof(DWORD);
-	
-	// useless(?) status indiactor
-	LONG status = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE//Microsoft//Windows//CurrentVersion//Policies//System//", 0, KEY_READ, &hKEY);
-	LONG status2;
-	LONG status3;
-	
-	// SUCCess? (bad pun)
-	if (ERROR_SUCCESS == status)
-	{
-		
-		// if yes then query values.
-		status = RegQueryValueEx(hKEY, "EnableLUA", NULL, &dwType, (BYTE*)&dwEnableLUA, &dwSize);
-		status2 = RegQueryValueEx(hKEY, "ConsentPromptBehaviorAdmin", NULL, &dwType, (BYTE*)&dwConsentPromptBehaviorAdmin, &dwSize);
-		status3 = RegQueryValueEx(hKEY, "PromptOnSecureDesktop", NULL, &dwType, (BYTE*)&dwPromptOnSecureDesktop, &dwSize);
-		
-		// also success?
-		if (ERROR_SUCCESS == status&&ERROR_SUCCESS == status2&&ERROR_SUCCESS == status3)
-		{
-			// then say true or false.
-			is = (dwEnableLUA == 1|| 1 >= dwConsentPromptBehaviorAdmin || 1 >= dwPromptOnSecureDesktop) ? TRUE : FALSE;
-		}
-		
-		// close the useless(again) hive key
-		RegCloseKey(hKEY);
-	}
-	
-	// the elder BOOL names "is"(bad name) scrolls. (bad joke)
-	return is;
-}
-
-// credits:
 // https://blog.csdn.net/u013147600/article/details/41681011
 // or some other that boost my thinking:
 // https://blog.csdn.net/allh45601/article/details/21005155
